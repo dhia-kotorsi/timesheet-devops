@@ -22,8 +22,12 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public List<User> retrieveAllUsers() { 
-
-		return null;
+		try {
+			return userRepository.findAll();
+		} catch (Exception e) {
+			l.error("error in retrieveAllUsers() : ", e);
+			return null;
+		}
 	}
 
 
@@ -33,12 +37,12 @@ public class UserServiceImpl implements IUserService {
 		User utilisateur = null; 
 
 		try {
-			// TODO Log à ajouter en début de la méthode 
+			l.info("Adding user: {} {}", u.getFirstName(), u.getLastName());
 			utilisateur = userRepository.save(u); 
-			// TODO Log à ajouter à la fin de la méthode 
+			l.info("User added with id {}", utilisateur.getId());
 
 		} catch (Exception e) {
-			// TODO log ici : l....("error in addUser() : " + e);
+			l.error("error in addUser() : ", e);
 		}
 
 		return utilisateur; 
@@ -48,16 +52,14 @@ public class UserServiceImpl implements IUserService {
 	public User updateUser(User u) {
 
 		User userUpdated = null; 
-		User u_saved = null; 
 
-		
 		try {
-			// TODO Log à ajouter en début de la méthode 
+			l.info("Updating user id {}", u.getId());
 			userUpdated = userRepository.save(u); 
-			// TODO Log à ajouter à la fin de la méthode 
+			l.info("User updated id {}", userUpdated.getId());
 
 		} catch (Exception e) {
-			// TODO log ici : l....("error in updateUser() : " + e);
+			l.error("error in updateUser() : ", e);
 		}
 
 		return userUpdated; 
@@ -67,26 +69,24 @@ public class UserServiceImpl implements IUserService {
 	public void deleteUser(String id) {
 
 		try {
-			// TODO Log à ajouter en début de la méthode 
+			l.info("Deleting user id {}", id);
 			userRepository.deleteById(Long.parseLong(id)); 
-			// TODO Log à ajouter à la fin de la méthode 
+			l.info("Deleted user id {}", id);
 
 		} catch (Exception e) {
-			// TODO log ici : l....("error in deleteUser() : " + e);
+			l.error("error in deleteUser() : ", e);
 		}
 
 	}
 
 	@Override
 	public User retrieveUser(String id) {
-		User u = null;
 		try {
-			u =  userRepository.findById(Long.parseLong(id)).get();
-
+			return userRepository.findById(Long.parseLong(id)).orElse(null);
 		} catch (Exception e) {
+			l.error("error in retrieveUser() : ", e);
+			return null;
 		}
-
-		return u;
 	}
 
 	
