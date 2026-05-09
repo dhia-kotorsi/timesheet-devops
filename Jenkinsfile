@@ -58,6 +58,13 @@ pipeline {
             }
         }
 
+        stage('Deploy to Nexus') {
+            steps {
+                echo 'Deploying artifact to Nexus...'
+                bat 'mvn deploy -DskipTests -s settings.xml'
+            }
+        }
+
     }
 
     post {
