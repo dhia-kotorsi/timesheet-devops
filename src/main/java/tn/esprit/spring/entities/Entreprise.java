@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Entreprise implements Serializable{
 	
@@ -28,6 +30,7 @@ public class Entreprise implements Serializable{
 	@OneToMany(mappedBy="entreprise", 
 			cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, 
 			fetch=FetchType.EAGER)
+	@JsonIgnore
 	private List<Departement> departements = new ArrayList<>();
 
 	public Entreprise() {

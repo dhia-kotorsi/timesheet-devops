@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contracts - Timesheet DevOps</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="navbar">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="users.html">Users</a>
+        <a class="nav-link" href="employes.html">Employees</a>
+        <a class="nav-link" href="contrats.html">Contracts</a>
+        <a class="nav-link" href="departements.html">Departments</a>
+        <a class="nav-link" href="entreprises.html">Companies</a>
+    </div>
+    <div class="container">
+        <div class="page-title">Contracts</div>
+        <div class="card">
+            <div id="status" class="status"></div>
+            <div id="table-wrapper" class="table-wrapper"></div>
+        </div>
+    </div>
+    <script>
+        const currentPage = window.location.pathname.split('/').pop();
+        document.querySelectorAll('.nav-link').forEach(link => {
+            if (link.getAttribute('href') === currentPage) {
+                link.classList.add('active');
+            }
+        });
+
+        function formatDate(value) {
+            if (!value) return '-';
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) return '-';
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+        async function loadContracts() {
+            const status = document.getElementById('status');
+            const tableWrapper = document.getElementById('table-wrapper');
+            status.innerHTML = `<div class="loading-box"><div class="spinner"></div><div>Loading contracts...</div></div>`;
+            tableWrapper.innerHTML = '';
+            try {
+                const response = await fetch('http://localhost:8082/timesheet-devops/contrat/retrieve-all-contrats');
+                if (!response.ok) {
+                    throw new Error(`Request failed with status ${response.status}`);
+                }
+                const data = await response.json();
+                if (!Array.isArray(data) || data.length === 0) {
+                    status.innerHTML = '';
+                    tableWrapper.innerHTML = '<div class="empty-state">No contracts were returned by the server.</div>';
+                    return;
+                }
+                const rows = data.map(contract => `
+                    <tr>
+                        <td>${contract?.id ?? '-'}</td>
+                        <td>${contract?.referenceContrat ?? '-'}</td>
+                        <td>${formatDate(contract?.dateDebutContrat)}</td>
+                        <td>${formatDate(contract?.dateFinContrat)}</td>
+                        <td>${contract?.salaireBase ?? '-'}</td>
+                    </tr>
+                `).join('');
+                tableWrapper.innerHTML = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Reference</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Salary</th>
+                            </tr>
+                        </thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                `;
+                status.innerHTML = '';
+            } catch (error) {
+                status.innerHTML = `<div class="status error">Unable to load contracts. ${error.message}</div>`;
+                tableWrapper.innerHTML = '';
+            }
+        }
+
+        loadContracts();
+    </script>
+</body>
+</html>

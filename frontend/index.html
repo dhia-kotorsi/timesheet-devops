@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timesheet DevOps Home</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="navbar">
+        <a class="nav-link" href="./index.html">Home</a>
+        <a class="nav-link" href="./users.html">Users</a>
+        <a class="nav-link" href="./employes.html">Employees</a>
+        <a class="nav-link" href="./contrats.html">Contracts</a>
+        <a class="nav-link" href="./departements.html">Departments</a>
+        <a class="nav-link" href="./entreprises.html">Companies</a>
+    </div>
+    <div class="container">
+        <div class="page-title">Timesheet DevOps</div>
+        <div class="card">
+            <p>Welcome to the Timesheet DevOps frontend. Use the navigation above to view and manage records.</p>
+            <p>This static frontend connects to the Spring Boot backend through REST APIs, so the backend must be running on <strong>http://localhost:8082/timesheet-devops/user/retrieve-all-users</strong>.</p>
+            <p>Start with <a href="./users.html">Users</a>, or choose one of the pages above.</p>
+        </div>
+    </div>
+    <script>
+        const currentPage = window.location.pathname.split('/').pop();
+        document.querySelectorAll('.nav-link').forEach(link => {
+            if (link.getAttribute('href') === currentPage) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>
