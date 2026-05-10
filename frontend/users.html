@@ -61,7 +61,7 @@
             }
         });
 
-        const apiBase = 'http://localhost:8082/timesheet-devops/user';
+        const apiBase = `${window.location.protocol}//${window.location.hostname.replace('-80.', '-8082.')}/timesheet-devops/user`;
         const status = document.getElementById('status');
         const tableWrapper = document.getElementById('table-wrapper');
         const idInput = document.getElementById('user-id');
