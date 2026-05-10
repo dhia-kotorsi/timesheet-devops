@@ -75,4 +75,12 @@
         <url>http://localhost:8081/repository/timesheet-devops-repo/</url>
     </repository>
 </distributionManagement>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-registry-prometheus</artifactId>
+</dependency>
 </project>
