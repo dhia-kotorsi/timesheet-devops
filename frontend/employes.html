@@ -29,6 +29,16 @@
                 link.classList.add('active');
             }
         });
+        function getApiBase(entity) {
+            const hostname = window.location.hostname;
+            const isLocal = hostname === 'localhost' || hostname === '127.0.0.1';
+            const base = isLocal
+                ? 'http://localhost:8082'
+                : `${window.location.protocol}//${hostname.replace('-80.', '-8082.')}`;
+            return `${base}/timesheet-devops/${entity}`;
+        }
+
+        const apiBase = getApiBase('employe'); 
 
         async function loadEmployees() {
             const status = document.getElementById('status');

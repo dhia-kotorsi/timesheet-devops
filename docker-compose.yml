@@ -44,6 +44,8 @@ services:
     container_name: timesheet-frontend
     ports:
       - "80:80"
+    depends_on:
+      - backend  
     networks:
       - timesheet-network
   prometheus:

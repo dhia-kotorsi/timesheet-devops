@@ -61,7 +61,7 @@
             }
         });
 
-        const apiBase = `${window.location.protocol}//${window.location.hostname.replace('-80.', '-8082.')}/timesheet-devops/user`;
+        const apiBase = getApiBase('user');
         const status = document.getElementById('status');
         const tableWrapper = document.getElementById('table-wrapper');
         const idInput = document.getElementById('user-id');
@@ -78,6 +78,14 @@
             status.className = isError ? 'status error' : 'status';
             status.innerHTML = message;
         }
+        function getApiBase(entity) {
+            const hostname = window.location.hostname;
+            const isLocal = hostname === 'localhost' || hostname === '127.0.0.1';
+            const base = isLocal
+                ? 'http://localhost:8082'
+                : `${window.location.protocol}//${hostname.replace('-80.', '-8082.')}`;
+            return `${base}/timesheet-devops/${entity}`;
+        }        
 
         function clearForm() {
             idInput.value = '';
