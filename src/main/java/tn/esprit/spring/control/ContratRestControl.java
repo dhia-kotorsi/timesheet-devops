@@ -16,8 +16,11 @@ import tn.esprit.spring.repository.ContratRepository;
 @RequestMapping("/contrat")
 public class ContratRestControl {
 
-    @Autowired
-    private ContratRepository contratRepository;
+    private final ContratRepository contratRepository;
+
+    public ContratRestControl(ContratRepository contratRepository) {
+        this.contratRepository = contratRepository;
+    }
 
     @GetMapping("/retrieve-all-contrats")
     public List<Contrat> retrieveAllContrats() {

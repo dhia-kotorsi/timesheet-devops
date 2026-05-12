@@ -2,7 +2,6 @@ package tn.esprit.spring.control;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +15,11 @@ import tn.esprit.spring.repository.EmployeRepository;
 @RequestMapping("/employe")
 public class EmployeRestControl {
 
-    @Autowired
-    private EmployeRepository employeRepository;
+    private final EmployeRepository employeRepository;
+
+    public EmployeRestControl(EmployeRepository employeRepository) {
+        this.employeRepository = employeRepository;
+    }
 
     @GetMapping("/retrieve-all-employes")
     public List<Employe> retrieveAllEmployes() {

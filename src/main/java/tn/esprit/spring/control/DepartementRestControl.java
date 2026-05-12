@@ -2,7 +2,6 @@ package tn.esprit.spring.control;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +15,11 @@ import tn.esprit.spring.repository.DepartementRepository;
 @RequestMapping("/departement")
 public class DepartementRestControl {
 
-    @Autowired
-    private DepartementRepository departementRepository;
+    private final DepartementRepository departementRepository;
+
+    public DepartementRestControl(DepartementRepository departementRepository) {
+        this.departementRepository = departementRepository;
+    }
 
     @GetMapping("/retrieve-all-departements")
     public List<Departement> retrieveAllDepartements() {
