@@ -45,7 +45,7 @@ pipeline {
                     bat """
                         set JAVA_HOME=C:\\Program Files\\Java\\jdk-21.0.10
                         set PATH=%JAVA_HOME%\\bin;%PATH%
-                        mvn sonar:sonar -Dsonar.projectKey=timesheet-devops -Dsonar.projectName=timesheet-devops
+                        mvn sonar:sonar -Dsonar.projectKey=timesheet-devops -Dsonar.projectName=timesheet-devops -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
                     """
                 }
             }
